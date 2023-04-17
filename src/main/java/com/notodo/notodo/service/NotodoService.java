@@ -29,6 +29,10 @@ public class NotodoService {
         return notodoRepository.findByMenberAndAdded(member, dto.getAdded());
     }
 
+    public List<Notodo> notodoViewAll() {
+        return notodoRepository.findAll();
+    }
+
 //    public Notodo createNotodo(NotodoRequezstDTO notodoRequestDTO) {
 //
 //        Member member = memberService.getMember(notodoRequestDTO.getEmail());//예외처리
