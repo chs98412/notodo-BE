@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class NotodoResponseDTO {
+    private Long notodoId;
 
     private String content;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)

@@ -1,7 +1,6 @@
 package com.notodo.notodo.service;
 
 
-import com.notodo.notodo.dto.DateDTO;
 import com.notodo.notodo.dto.NotodoRequestDTO;
 import com.notodo.notodo.entity.Member;
 import com.notodo.notodo.entity.Notodo;
@@ -9,6 +8,7 @@ import com.notodo.notodo.repository.NotodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,18 +25,25 @@ public class NotodoService {
         notodoRepository.save(notodo);
     }
 
-    public List<Notodo> notodoView(Member member, DateDTO dto) {
-        return notodoRepository.findByMenberAndAdded(member, dto.getAdded());
+    public List<Notodo> notodoView(Member member, String date) {
+        LocalDate localDate = LocalDate.parse(date);
+        return notodoRepository.findByMemberAndAdded(member, localDate);
     }
 
     public List<Notodo> notodoViewAll() {
         return notodoRepository.findAll();
     }
 
-//    public Notodo createNotodo(NotodoRequezstDTO notodoRequestDTO) {
-//
-//        Member member = memberService.getMember(notodoRequestDTO.getEmail());//예외처리
-//
-//
-//    }
+
+    public void notodoSetSuccess(Long notodoId) {
+        Notodo notodo = notodoRepository.findById(notodoId).get();
+        notodo.setStatus(1);
+        notodoRepository.save(notodo);
+    }
+
+    public void notodoSetFail(Long notodoId) {
+        Notodo notodo = notodoRepository.findById(notodoId).get();
+        notodo.setStatus(2);
+        notodoRepository.save(notodo);
+    }
 }

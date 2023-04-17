@@ -8,5 +8,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface NotodoRepository extends JpaRepository<Notodo, Long> {
-    List<Notodo> findByMenberAndAdded(Member member, LocalDate added);
+    List<Notodo> findByMemberAndAdded(Member member, LocalDate added);
 }

@@ -1,9 +1,9 @@
 package com.notodo.notodo.controller;
 
 
-import com.notodo.notodo.dto.DateDTO;
 import com.notodo.notodo.dto.NotodoRequestDTO;
 import com.notodo.notodo.dto.NotodoResponseDTO;
+import com.notodo.notodo.dto.NotodoSetDTO;
 import com.notodo.notodo.entity.Member;
 import com.notodo.notodo.entity.Notodo;
 import com.notodo.notodo.service.NotodoService;
@@ -34,11 +34,11 @@ public class NotodoController {
 
     //낫투두 조회 메소드
     @GetMapping("/view")
-    public ResponseEntity viewNotodo(@AuthenticationPrincipal Member member,@RequestBody DateDTO dto) {
-        List<Notodo> notodos = notodoService.notodoView(member, dto);
+    public ResponseEntity viewNotodo(@AuthenticationPrincipal Member member,@RequestParam String date) {
+        List<Notodo> notodos = notodoService.notodoView(member, date);
         List<NotodoResponseDTO> responseDTOS = new ArrayList<>();
         for (Notodo notodo : notodos) {
-            NotodoResponseDTO responseDTO = new NotodoResponseDTO(notodo.getContent(), notodo.getAdded(), notodo.getStatus());
+            NotodoResponseDTO responseDTO = new NotodoResponseDTO(notodo.getNotodoId(),notodo.getContent(), notodo.getAdded(), notodo.getStatus());
             responseDTOS.add(responseDTO);
         }
         return new ResponseEntity(responseDTOS, HttpStatus.OK);
@@ -49,13 +49,22 @@ public class NotodoController {
         List<Notodo> notodos = notodoService.notodoViewAll();
         List<NotodoResponseDTO> responseDTOS = new ArrayList<>();
         for (Notodo notodo : notodos) {
-            NotodoResponseDTO responseDTO = new NotodoResponseDTO(notodo.getContent(), notodo.getAdded(), notodo.getStatus());
+            NotodoResponseDTO responseDTO = new NotodoResponseDTO(notodo.getNotodoId(),notodo.getContent(), notodo.getAdded(), notodo.getStatus());
             responseDTOS.add(responseDTO);
         }
         return new ResponseEntity(responseDTOS, HttpStatus.OK);
     }
     //낫투두 성공 체크
+    @PostMapping("/setsuccess")
+    public ResponseEntity setsuccessNotodo(@AuthenticationPrincipal Member member,@RequestBody NotodoSetDTO dto) {
+          notodoService.notodoSetSuccess(dto.getNotodoId());
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
     //낫투두 실패 체크
-
+    @PostMapping("/setFail")
+    public ResponseEntity setFailNotodo(@AuthenticationPrincipal Member member,@RequestBody NotodoSetDTO dto) {
+        notodoService.notodoSetFail(dto.getNotodoId());
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
 
 }
