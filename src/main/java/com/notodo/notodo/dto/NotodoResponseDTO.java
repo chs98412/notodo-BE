@@ -12,10 +12,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 @Builder
-public class NotodoRequestDTO {
+public class NotodoResponseDTO {
+
     private String content;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
     private LocalDate added;
 
-
+    private Integer status;
 }

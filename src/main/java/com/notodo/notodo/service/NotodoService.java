@@ -26,7 +26,7 @@ public class NotodoService {
     }
 
     public List<Notodo> notodoView(Member member, DateDTO dto) {
-
+        return notodoRepository.findByMenberAndAdded(member, dto.getAdded());
     }
 
 //    public Notodo createNotodo(NotodoRequezstDTO notodoRequestDTO) {
