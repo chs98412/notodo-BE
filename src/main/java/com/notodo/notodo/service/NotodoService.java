@@ -30,8 +30,8 @@ public class NotodoService {
         return notodoRepository.findByMemberAndAdded(member, localDate);
     }
 
-    public List<Notodo> notodoViewAll() {
-        return notodoRepository.findAll();
+    public List<Notodo> notodoViewAll(Member member) {
+        return notodoRepository.findByMember(member);
     }
 
 

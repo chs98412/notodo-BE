@@ -43,10 +43,11 @@ public class NotodoController {
         }
         return new ResponseEntity(responseDTOS, HttpStatus.OK);
     }
+
     //낫투두 전체 조회 메소드 (테스트용)
     @GetMapping("/viewall")
-    public ResponseEntity viewAllNotodo() {
-        List<Notodo> notodos = notodoService.notodoViewAll();
+    public ResponseEntity viewAllNotodo(@AuthenticationPrincipal Member member) {
+        List<Notodo> notodos = notodoService.notodoViewAll(member);
         List<NotodoResponseDTO> responseDTOS = new ArrayList<>();
         for (Notodo notodo : notodos) {
             NotodoResponseDTO responseDTO = new NotodoResponseDTO(notodo.getNotodoId(),notodo.getContent(), notodo.getAdded(), notodo.getStatus());
