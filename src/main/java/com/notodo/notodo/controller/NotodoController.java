@@ -1,6 +1,7 @@
 package com.notodo.notodo.controller;
 
 
+import com.notodo.notodo.dto.NotodoPutResponseDTO;
 import com.notodo.notodo.dto.NotodoRequestDTO;
 import com.notodo.notodo.dto.NotodoResponseDTO;
 import com.notodo.notodo.dto.NotodoSetDTO;
@@ -65,6 +66,21 @@ public class NotodoController {
     @PostMapping("/setFail")
     public ResponseEntity setFailNotodo(@AuthenticationPrincipal Member member,@RequestBody NotodoSetDTO dto) {
         notodoService.notodoSetFail(dto.getNotodoId());
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    //낫투두 삭제
+    @DeleteMapping("/delete")
+    public ResponseEntity deleteNotodo(@AuthenticationPrincipal Member member,@RequestBody NotodoSetDTO dto) {
+        notodoService.notodoDelete(dto.getNotodoId());
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+
+    //낫투두 수정
+    @PutMapping("/put")
+    public ResponseEntity putNotodo(@AuthenticationPrincipal Member member,@RequestBody NotodoPutResponseDTO dto) {
+        notodoService.notodoPut(dto);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 

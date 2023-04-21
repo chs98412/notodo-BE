@@ -1,6 +1,7 @@
 package com.notodo.notodo.service;
 
 
+import com.notodo.notodo.dto.NotodoPutResponseDTO;
 import com.notodo.notodo.dto.NotodoRequestDTO;
 import com.notodo.notodo.entity.Member;
 import com.notodo.notodo.entity.Notodo;
@@ -44,6 +45,17 @@ public class NotodoService {
     public void notodoSetFail(Long notodoId) {
         Notodo notodo = notodoRepository.findById(notodoId).get();
         notodo.setStatus(2);
+        notodoRepository.save(notodo);
+    }
+
+    public void notodoDelete(Long notodoId) {
+        Notodo notodo = notodoRepository.findById(notodoId).get();
+        notodoRepository.delete(notodo);
+    }
+
+    public void notodoPut(NotodoPutResponseDTO dto) {
+        Notodo notodo = notodoRepository.findById(dto.getNotodoId()).get();
+        notodo.setContent(dto.getContent());
         notodoRepository.save(notodo);
     }
 }
