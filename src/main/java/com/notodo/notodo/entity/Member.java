@@ -24,5 +24,7 @@ public class Member {
     private String email;
     private String nickname;
 
+    private String thumbnail;
+
 
 }

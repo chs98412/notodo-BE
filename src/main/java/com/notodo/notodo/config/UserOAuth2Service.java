@@ -39,9 +39,10 @@ public class UserOAuth2Service extends DefaultOAuth2UserService {
 
         Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
         String nickname = (String) properties.get("nickname");
+        String picture = (String) properties.get("picture");
 
         if (! memberRepository.findByEmail(email).isPresent() ) {
-            Member newMenber = Member.builder().email(email).nickname(nickname).build();
+            Member newMenber = Member.builder().email(email).nickname(nickname).thumbnail(picture).build();
             memberRepository.save(newMenber);
             List<Member> members=memberRepository.findAll();
             for (Member member : members) {

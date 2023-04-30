@@ -1,10 +1,7 @@
 package com.notodo.notodo.controller;
 
 
-import com.notodo.notodo.dto.NotodoPutResponseDTO;
-import com.notodo.notodo.dto.NotodoRequestDTO;
-import com.notodo.notodo.dto.NotodoResponseDTO;
-import com.notodo.notodo.dto.NotodoSetDTO;
+import com.notodo.notodo.dto.*;
 import com.notodo.notodo.entity.Member;
 import com.notodo.notodo.entity.Notodo;
 import com.notodo.notodo.service.NotodoService;
@@ -23,6 +20,16 @@ public class NotodoController {
 
     @Autowired
     private NotodoService notodoService;
+
+    @PostMapping("/memberinfo")
+    public ResponseEntity infoMember(@AuthenticationPrincipal Member member) {
+
+        MemberDTO memberDTO = new MemberDTO(member.getEmail(), member.getNickname(), member.getThumbnail());
+
+        return new ResponseEntity(memberDTO, HttpStatus.OK);
+    }
+
+
 
     //낫투두 생성 메소드
     @PostMapping("/create")
