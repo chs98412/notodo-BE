@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/product/**", "/member/authenticate", "/auth/**", "/order/**").permitAll()
+                .antMatchers("/product/**", "/member/authenticate", "/auth/**", "/order/**","/notodo/**").permitAll()
 //                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .sessionManagement()
