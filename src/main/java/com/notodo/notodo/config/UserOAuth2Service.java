@@ -39,7 +39,7 @@ public class UserOAuth2Service extends DefaultOAuth2UserService {
 
         Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
         String nickname = (String) properties.get("nickname");
-        String picture = (String) properties.get("picture");
+        String picture = (String) properties.get("profile_image");
 
         if (! memberRepository.findByEmail(email).isPresent() ) {
             Member newMenber = Member.builder().email(email).nickname(nickname).thumbnail(picture).build();
