@@ -38,6 +38,7 @@ jobs:
           name: cicdsample
           path: build/libs/*.jar
  
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -50,9 +51,13 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Add remote server to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
       - name: SCP transfer
         run: scp *.jar chs98412@${{ secrets.SERVER_IP }}:~/cicd
       - name: Execute remote commands
         run: |
-          ssh chs98412@${{ secrets.SERVER_IP }} "sudo fuser -k 8080/tcp|| true"
-          ssh chs98412@${{ secrets.SERVER_IP }} "sudo nohup /usr/bin/java -jar ~/cicd/*.jar > ~/cicd/nohup.log 2>&1 &"
+          ssh -v chs98412@${{ secrets.SERVER_IP }} "sudo fuser -k 8080/tcp || true"
+          ssh -v chs98412@${{ secrets.SERVER_IP }} "sudo nohup /usr/bin/java -jar ~/cicd/*.jar  > ~/cicd/nohup.log 2>&1 &"
