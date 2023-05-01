@@ -24,19 +24,19 @@ spring:
                     token-uri: https://kauth.kakao.com/oauth/token
                     user-info-uri: https://kapi.kakao.com/v2/user/me
                     user-name-attribute: id
-
-    jpa:
-      open-in-view: true
-      database-platform: org.h2.Driver
-      show-sql: true
-      properties:
-        hibernate.format_sql: true
-        hibernate.use_sql_comments: true
-      hibernate:
-        ddl-auto: create
-
-    datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://34.22.75.189:3306/notodo?useSSL=false&serverTimezone=UTC
-    username: hyuk
-    password: Chlgurtns98!
+#
+#    jpa:
+#      open-in-view: true
+#      database-platform: org.h2.Driver
+#      show-sql: true
+#      properties:
+#        hibernate.format_sql: true
+#        hibernate.use_sql_comments: true
+#      hibernate:
+#        ddl-auto: create
+#
+#    datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://34.22.75.189:3306/notodo?useSSL=false&serverTimezone=UTC
+#    username: hyuk
+#    password: Chlgurtns98!
