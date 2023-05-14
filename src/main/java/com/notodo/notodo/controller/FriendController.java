@@ -33,7 +33,10 @@ public class FriendController {
     public ResponseEntity all() {
         return new ResponseEntity(memberService.findAll(), HttpStatus.OK);
     }
-
+    @GetMapping("allfr")
+    public ResponseEntity allfr() {
+        return new ResponseEntity(friendService.findAll(), HttpStatus.OK);
+    }
     @GetMapping("search")
     public ResponseEntity serchFriend(@AuthenticationPrincipal Member member,@RequestParam String email) {
         Member friend = memberService.findFriend(email);

@@ -43,4 +43,8 @@ public class FriendService {
         return false;
 
     }
+
+    public Object findAll() {
+        return friendRepository.findAll();
+    }
 }
