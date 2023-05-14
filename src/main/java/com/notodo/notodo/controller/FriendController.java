@@ -50,7 +50,7 @@ public class FriendController {
         Member friend = memberService.findFriend(setFriendDTO.getEmail());
         friendService.friendAdd(member, friend);
 
-        return new ResponseEntity("success", HttpStatus.CREATED);
+        return new ResponseEntity(friendService.findFriends(member), HttpStatus.CREATED);
     }
 
     @DeleteMapping("delete")
