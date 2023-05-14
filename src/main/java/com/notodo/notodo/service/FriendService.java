@@ -28,7 +28,7 @@ public class FriendService {
         return;
     }
 
-    public List<Member> findFriends(Member member) {
+    public List<Friend> findFriends(Member member) {
         return friendRepository.findAllByMember(member);
 
     }

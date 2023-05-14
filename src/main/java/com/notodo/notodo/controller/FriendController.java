@@ -4,6 +4,7 @@ import com.notodo.notodo.dto.FindFriendDTO;
 import com.notodo.notodo.dto.MemberDTO;
 import com.notodo.notodo.dto.NotodoResponseDTO;
 import com.notodo.notodo.dto.SetFriendDTO;
+import com.notodo.notodo.entity.Friend;
 import com.notodo.notodo.entity.Member;
 import com.notodo.notodo.entity.Notodo;
 import com.notodo.notodo.service.FriendService;
@@ -62,10 +63,11 @@ public class FriendController {
 
     @GetMapping("list")
     public ResponseEntity listFriend(@AuthenticationPrincipal Member member) {
-        List<Member> friendList = friendService.findFriends(member);
+        List<Friend> friendList = friendService.findFriends(member);
         List<MemberDTO> dtos = new ArrayList<>();
-        for (Member fr : friendList) {
-            MemberDTO dto = new MemberDTO(fr.getEmail(), fr.getNickname(), fr.getThumbnail());
+        for (Friend fr : friendList) {
+            Member friend = memberService.findFriend(fr.getEmail());
+            MemberDTO dto = new MemberDTO(friend.getEmail(), friend.getNickname(), friend.getThumbnail());
             dtos.add(dto);
         }
         return new ResponseEntity(dtos, HttpStatus.OK);
