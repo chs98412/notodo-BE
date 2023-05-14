@@ -16,9 +16,7 @@ public class FriendService {
 
 
     public void friendAdd(Member member, Member friend) {
-        Friend newFriend = new Friend();
-        newFriend.setMember(member);
-        newFriend.setEmail(friend.getEmail());
+        Friend newFriend = Friend.builder().member(member).email(friend.getEmail()).build();
         friendRepository.save(newFriend);
         return;
     }
