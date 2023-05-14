@@ -14,4 +14,7 @@ public class MemberService {
         return memberRepository.findByEmail(email).get();
     }
 
+    public Object findAll() {
+        return memberRepository.findAll();
+    }
 }

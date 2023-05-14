@@ -29,6 +29,11 @@ public class FriendController {
     @Autowired
     private NotodoService notodoService;
 
+    @GetMapping("all")
+    public ResponseEntity all() {
+        return new ResponseEntity(memberService.findAll(), HttpStatus.OK);
+    }
+
     @GetMapping("search")
     public ResponseEntity serchFriend(@AuthenticationPrincipal Member member,@RequestParam String email) {
         Member friend = memberService.findFriend(email);
