@@ -39,10 +39,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/notodo/**");
-    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -52,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
                 .authorizeRequests()
-                .antMatchers("/product/**", "/member/authenticate", "/auth/**", "/order/**","/notodo/**","/friend/**").permitAll()
+                .antMatchers("/**","/product/**", "/member/authenticate", "/auth/**", "/order/**","/notodo/**","/friend/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
 //                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
