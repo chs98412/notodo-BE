@@ -111,8 +111,8 @@ public class FriendController {
 
     //팔로워 삭제
     @DeleteMapping("deletefollwer")
-    public ResponseEntity deleteFollwers(@AuthenticationPrincipal Member member, @RequestBody String email) {
-        Member me = memberService.findFriend(email);
+    public ResponseEntity deleteFollwers(@AuthenticationPrincipal Member member, @RequestBody SetFriendDTO setFriendDTO) {
+        Member me = memberService.findFriend(setFriendDTO.getEmail());
 
         friendService.deleteFollwer(me,member.getEmail());
 

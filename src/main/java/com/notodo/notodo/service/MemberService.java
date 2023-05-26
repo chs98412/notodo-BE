@@ -17,4 +17,9 @@ public class MemberService {
     public Object findAll() {
         return memberRepository.findAll();
     }
+
+    public void byebye(Member member) {
+        memberRepository.delete(member);
+
+    }
 }

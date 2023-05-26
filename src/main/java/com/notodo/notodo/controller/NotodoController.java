@@ -4,6 +4,8 @@ package com.notodo.notodo.controller;
 import com.notodo.notodo.dto.*;
 import com.notodo.notodo.entity.Member;
 import com.notodo.notodo.entity.Notodo;
+import com.notodo.notodo.repository.MemberRepository;
+import com.notodo.notodo.service.MemberService;
 import com.notodo.notodo.service.NotodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,9 @@ public class NotodoController {
 
     @Autowired
     private NotodoService notodoService;
+
+    @Autowired
+    private MemberService memberService;
 
     @PostMapping("/memberinfo")
     public ResponseEntity infoMember(@AuthenticationPrincipal Member member) {
@@ -89,6 +94,13 @@ public class NotodoController {
     @PutMapping("/put")
     public ResponseEntity putNotodo(@AuthenticationPrincipal Member member,@RequestBody NotodoPutResponseDTO dto) {
         notodoService.notodoPut(dto);
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    //탈퇴
+    @PostMapping("/bye")
+    public ResponseEntity byebye(@AuthenticationPrincipal Member member) {
+        memberService.byebye(member);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
