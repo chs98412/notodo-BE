@@ -96,6 +96,7 @@ public class FriendController {
     }
 
     //팔로워 조회
+    @GetMapping("viewfollwers")
     public ResponseEntity viewFollwers(@AuthenticationPrincipal Member member) {
         List<Friend> friendList = friendService.findFollwers(member);
         List<MemberDTO> dtos = new ArrayList<>();
@@ -109,6 +110,7 @@ public class FriendController {
     }
 
     //팔로워 삭제
+    @DeleteMapping("deletefollwer")
     public ResponseEntity deleteFollwers(@AuthenticationPrincipal Member member, @RequestBody String email) {
         Member me = memberService.findFriend(email);
 
