@@ -62,6 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(userOAuth2Service);
 
 
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterAfter(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
