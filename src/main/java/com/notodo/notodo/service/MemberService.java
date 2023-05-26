@@ -5,6 +5,8 @@ import com.notodo.notodo.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MemberService {
     @Autowired
@@ -21,5 +23,9 @@ public class MemberService {
     public void byebye(Member member) {
         memberRepository.delete(member);
 
+    }
+
+    public Optional<Member> findMember(String email) {
+        return memberRepository.findByEmail(email);
     }
 }

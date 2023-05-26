@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("notodo")
@@ -27,12 +28,25 @@ public class NotodoController {
     @Autowired
     private MemberService memberService;
 
-    @PostMapping("/memberinfo")
+    @GetMapping("/memberinfo")
     public ResponseEntity infoMember(@AuthenticationPrincipal Member member) {
 
         MemberDTO memberDTO = new MemberDTO(member.getEmail(), member.getNickname(), member.getThumbnail());
 
         return new ResponseEntity(memberDTO, HttpStatus.OK);
+    }
+    @GetMapping("/memberinfotest")
+    public ResponseEntity infoMemberTest(@RequestParam String email) {
+        Optional<Member> optMember =memberService.findMember(email);
+        if (optMember.isPresent()) {
+            Member member = optMember.get();
+            MemberDTO memberDTO = new MemberDTO(member.getEmail(), member.getNickname(), member.getThumbnail());
+
+            return new ResponseEntity(memberDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity("Not exsist", HttpStatus.NOT_FOUND);
+        }
+
     }
 
 
