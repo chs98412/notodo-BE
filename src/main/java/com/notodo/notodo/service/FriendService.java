@@ -45,4 +45,14 @@ public class FriendService {
     public Object findAll() {
         return friendRepository.findAll();
     }
+
+    public List<Friend> findFollwers(Member member) {
+        return friendRepository.findByEmail(member.getEmail());
+    }
+
+    public void deleteFollwer(Member member, String email) {
+        Friend friend = friendRepository.findByMemberAndEmail(member, email).get();
+        friendRepository.delete(friend);
+        return;
+    }
 }

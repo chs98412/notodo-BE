@@ -16,4 +16,6 @@ public class FindFriendDTO {
     private String thumbnail;
 
     private boolean isFriend;
+
+    private boolean isMe;
 }

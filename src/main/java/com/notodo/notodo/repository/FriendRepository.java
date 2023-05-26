@@ -11,4 +11,6 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
     Optional<Friend> findByMemberAndEmail(Member member, String email);
 
     List<Friend> findAllByMember(Member member);
+
+    List<Friend> findByEmail(String email);
 }
