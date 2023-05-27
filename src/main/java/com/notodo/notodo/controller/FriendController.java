@@ -61,7 +61,7 @@ public class FriendController {
     }
 
     //친구 삭제
-    @DeleteMapping("delete")
+    @PostMapping("delete")
     public ResponseEntity deleteFriend(@AuthenticationPrincipal Member member,@RequestBody SetFriendDTO setFriendDTO) {
         Member friend = memberService.findFriend(setFriendDTO.getEmail());
         friendService.friendDelete(member, friend);
@@ -110,7 +110,7 @@ public class FriendController {
     }
 
     //팔로워 삭제
-    @DeleteMapping("deletefollwer")
+    @PostMapping("deletefollwer")
     public ResponseEntity deleteFollwers(@AuthenticationPrincipal Member member, @RequestBody SetFriendDTO setFriendDTO) {
         Member me = memberService.findFriend(setFriendDTO.getEmail());
 

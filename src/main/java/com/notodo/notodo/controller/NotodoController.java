@@ -97,7 +97,7 @@ public class NotodoController {
     }
 
     //낫투두 삭제
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity deleteNotodo(@AuthenticationPrincipal Member member,@RequestBody NotodoSetDTO dto) {
         notodoService.notodoDelete(dto.getNotodoId());
         return new ResponseEntity("success", HttpStatus.OK);
