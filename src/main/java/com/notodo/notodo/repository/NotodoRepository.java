@@ -11,4 +11,6 @@ public interface NotodoRepository extends JpaRepository<Notodo, Long> {
     List<Notodo> findByMemberAndAdded(Member member, LocalDate added);
 
     List<Notodo> findByMember(Member member);
+
+    Integer countByMember(Member member);
 }

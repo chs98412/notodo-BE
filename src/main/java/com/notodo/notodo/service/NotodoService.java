@@ -58,4 +58,8 @@ public class NotodoService {
         notodo.setContent(dto.getContent());
         notodoRepository.save(notodo);
     }
+
+    public Integer countNotodo(Member member) {
+        return notodoRepository.countByMember(member);
+    }
 }
