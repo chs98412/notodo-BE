@@ -120,6 +120,7 @@ public class FriendController {
 
     }
 
+    @GetMapping("count")
     //친구 노토도 개수 출력
     public ResponseEntity countNotodo(@RequestBody SetFriendDTO setFriendDTO) {
         Member member = memberService.findMember(setFriendDTO.getEmail()).get();
