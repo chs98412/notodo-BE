@@ -15,10 +15,27 @@ import java.util.Date;
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public final ResponseEntity<Object> hadleAllExceptions(Exception ex, WebRequest request) {
+    public final ResponseEntity<Object> hadleUserNotFoundExceptionExceptions(Exception ex, WebRequest request) {
 
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
 
         return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(NoNotodoException.class)
+    public final ResponseEntity<Object> hadleNoNotodoExceptionExceptions(Exception ex, WebRequest request) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+
+        return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NotExsistFriendException.class)
+    public final ResponseEntity<Object> hadleNotExsistFriendExceptionExceptions(Exception ex, WebRequest request) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+
+        return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
 }
