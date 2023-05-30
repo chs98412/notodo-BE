@@ -12,8 +12,8 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
-    public Member findFriend(String email) {
-        return memberRepository.findByEmail(email).get();
+    public Optional<Member> findFriend(String email) {
+        return memberRepository.findByEmail(email);
     }
 
     public Object findAll() {

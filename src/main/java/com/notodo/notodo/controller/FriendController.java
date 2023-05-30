@@ -7,6 +7,8 @@ import com.notodo.notodo.dto.SetFriendDTO;
 import com.notodo.notodo.entity.Friend;
 import com.notodo.notodo.entity.Member;
 import com.notodo.notodo.entity.Notodo;
+import com.notodo.notodo.exception.NotExsistFriendException;
+import com.notodo.notodo.exception.UserNotFoundException;
 import com.notodo.notodo.service.FriendService;
 import com.notodo.notodo.service.MemberService;
 import com.notodo.notodo.service.NotodoService;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("friend")
@@ -42,7 +44,11 @@ public class FriendController {
     //email로 친구 검색
     @GetMapping("search")
     public ResponseEntity serchFriend(@AuthenticationPrincipal Member member,@RequestParam String email) {
-        Member friend = memberService.findFriend(email);
+        Optional<Member> optFriend = memberService.findFriend(email);
+        if (optFriend.isEmpty()) {
+            throw new UserNotFoundException(String.format("email[%s] ㅅㅏ용자를 찾을 수 없습니다", email));
+        }
+        Member friend = optFriend.get();
         boolean isMe = false;
         if (member.equals(friend)) {
             isMe = true;
@@ -54,7 +60,11 @@ public class FriendController {
     //친구 추가
     @PostMapping("add")
     public ResponseEntity addFriend(@AuthenticationPrincipal Member member,@RequestBody SetFriendDTO setFriendDTO) {
-        Member friend = memberService.findFriend(setFriendDTO.getEmail());
+        Optional<Member > optFriend = memberService.findFriend(setFriendDTO.getEmail());
+        if (optFriend.isEmpty()) {
+            throw new UserNotFoundException(String.format("email[%s] ㅅㅏ용자를 찾을 수 없습니다", setFriendDTO.getEmail()));
+        }
+        Member friend = optFriend.get();
         friendService.friendAdd(member, friend);
 
         return new ResponseEntity("success", HttpStatus.CREATED);
@@ -63,9 +73,15 @@ public class FriendController {
     //친구 삭제
     @PostMapping("delete")
     public ResponseEntity deleteFriend(@AuthenticationPrincipal Member member,@RequestBody SetFriendDTO setFriendDTO) {
-        Member friend = memberService.findFriend(setFriendDTO.getEmail());
-        friendService.friendDelete(member, friend);
-
+        Optional<Member > optFriend = memberService.findFriend(setFriendDTO.getEmail());
+        if (optFriend.isEmpty()) {
+            throw new UserNotFoundException(String.format("email[%s] ㅅㅏ용자를 찾을 수 없습니다", setFriendDTO.getEmail()));
+        }
+        Member friend = optFriend.get();
+        boolean status = friendService.friendDelete(member, friend);
+        if (status == false) {
+            throw  new NotExsistFriendException(String.format("email[%s] 에 해당하는 친구를 찾을 수 없습니다", setFriendDTO.getEmail()));
+        }
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
@@ -75,9 +91,12 @@ public class FriendController {
         List<Friend> friendList = friendService.findFriends(member);
         List<MemberDTO> dtos = new ArrayList<>();
         for (Friend fr : friendList) {
-            Member friend = memberService.findFriend(fr.getEmail());
-            MemberDTO dto = new MemberDTO(friend.getEmail(), friend.getNickname(), friend.getThumbnail());
-            dtos.add(dto);
+            Optional<Member> optFriend = memberService.findFriend(fr.getEmail());
+            if (optFriend.isPresent()) {
+                Member friend = optFriend.get();
+                MemberDTO dto = new MemberDTO(friend.getEmail(), friend.getNickname(), friend.getThumbnail());
+                dtos.add(dto);
+            }
         }
         return new ResponseEntity(dtos, HttpStatus.OK);
     }
@@ -85,7 +104,11 @@ public class FriendController {
     //친구 노토도 조회
     @GetMapping("view")
     public ResponseEntity viewFriendNotodo(@RequestParam String email, @RequestParam String date) {
-        Member friend = memberService.findFriend(email);
+        Optional<Member > optFriend = memberService.findFriend(email);
+        if (optFriend.isEmpty()) {
+            throw new UserNotFoundException(String.format("email[%s] ㅅㅏ용자를 찾을 수 없습니다", email));
+        }
+        Member friend = optFriend.get();
         List<Notodo> notodos = notodoService.notodoView(friend, date);
         List<NotodoResponseDTO> responseDTOS = new ArrayList<>();
         for (Notodo notodo : notodos) {
@@ -101,9 +124,12 @@ public class FriendController {
         List<Friend> friendList = friendService.findFollwers(member);
         List<MemberDTO> dtos = new ArrayList<>();
         for (Friend fr : friendList) {
-            Member friend = memberService.findFriend(fr.getEmail());
-            MemberDTO dto = new MemberDTO(friend.getEmail(), friend.getNickname(), friend.getThumbnail());
-            dtos.add(dto);
+            Optional<Member> optFriend = memberService.findFriend(fr.getEmail());
+            if (optFriend.isPresent()) {
+                Member friend = optFriend.get();
+                MemberDTO dto = new MemberDTO(friend.getEmail(), friend.getNickname(), friend.getThumbnail());
+                dtos.add(dto);
+            }
         }
         return new ResponseEntity(dtos, HttpStatus.OK);
 
@@ -112,7 +138,11 @@ public class FriendController {
     //팔로워 삭제
     @PostMapping("deletefollwer")
     public ResponseEntity deleteFollwers(@AuthenticationPrincipal Member member, @RequestBody SetFriendDTO setFriendDTO) {
-        Member me = memberService.findFriend(setFriendDTO.getEmail());
+        Optional<Member > optMe= memberService.findFriend(setFriendDTO.getEmail());
+        if (optMe.isEmpty()) {
+            throw new UserNotFoundException(String.format("email[%s] ㅅㅏ용자를 찾을 수 없습니다", setFriendDTO.getEmail()));
+        }
+        Member me = optMe.get();
 
         friendService.deleteFollwer(me,member.getEmail());
 

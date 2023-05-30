@@ -21,11 +21,15 @@ public class FriendService {
         return;
     }
 
-    public void friendDelete(Member member, Member friend) {
-        Friend fr = friendRepository.findByMemberAndEmail(member, friend.getEmail()).get();
+    public boolean friendDelete(Member member, Member friend) {
+        Optional<Friend> optFr = friendRepository.findByMemberAndEmail(member, friend.getEmail());
+        if (optFr.isEmpty()) {
+            return false;
+        }
+        Friend fr = optFr.get();
         friendRepository.delete(fr);
 
-        return;
+        return true;
     }
 
     public List<Friend> findFriends(Member member) {

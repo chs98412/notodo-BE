@@ -4,6 +4,8 @@ package com.notodo.notodo.controller;
 import com.notodo.notodo.dto.*;
 import com.notodo.notodo.entity.Member;
 import com.notodo.notodo.entity.Notodo;
+import com.notodo.notodo.exception.NoNotodoException;
+import com.notodo.notodo.exception.UserNotFoundException;
 import com.notodo.notodo.repository.MemberRepository;
 import com.notodo.notodo.service.MemberService;
 import com.notodo.notodo.service.NotodoService;
@@ -44,7 +46,7 @@ public class NotodoController {
 
             return new ResponseEntity(memberDTO, HttpStatus.OK);
         } else {
-            return new ResponseEntity("Not exsist", HttpStatus.NOT_FOUND);
+            throw new UserNotFoundException(String.format("email[%s] ㅅㅏ용자를 찾을 수 없습니다", email));
         }
 
     }
@@ -64,6 +66,9 @@ public class NotodoController {
     @GetMapping("/view")
     public ResponseEntity viewNotodo(@AuthenticationPrincipal Member member,@RequestParam String date) {
         List<Notodo> notodos = notodoService.notodoView(member, date);
+        if (notodos.isEmpty()) {
+            throw new NoNotodoException(String.format("data[] 날짜에 해당하는 노토도가 없습니다.", date));
+        }
         List<NotodoResponseDTO> responseDTOS = new ArrayList<>();
         for (Notodo notodo : notodos) {
             NotodoResponseDTO responseDTO = new NotodoResponseDTO(notodo.getNotodoId(),notodo.getContent(), notodo.getAdded(), notodo.getStatus());
