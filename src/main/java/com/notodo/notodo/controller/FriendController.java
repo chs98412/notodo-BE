@@ -1,9 +1,6 @@
 package com.notodo.notodo.controller;
 
-import com.notodo.notodo.dto.FindFriendDTO;
-import com.notodo.notodo.dto.MemberDTO;
-import com.notodo.notodo.dto.NotodoResponseDTO;
-import com.notodo.notodo.dto.SetFriendDTO;
+import com.notodo.notodo.dto.*;
 import com.notodo.notodo.entity.Friend;
 import com.notodo.notodo.entity.Member;
 import com.notodo.notodo.entity.Notodo;
@@ -85,25 +82,26 @@ public class FriendController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    //친구 목록
+    //팔로잉 목록
     @GetMapping("list")
-    public ResponseEntity listFriend(@AuthenticationPrincipal Member member) {
+    public ResponseEntity listFollowing(@AuthenticationPrincipal Member member) {
         List<Friend> friendList = friendService.findFriends(member);
-        List<MemberDTO> dtos = new ArrayList<>();
+        List<FollowingDTO> dtos = new ArrayList<>();
         for (Friend fr : friendList) {
             Optional<Member> optFriend = memberService.findFriend(fr.getEmail());
             if (optFriend.isPresent()) {
                 Member friend = optFriend.get();
-                MemberDTO dto = new MemberDTO(friend.getEmail(), friend.getNickname(), friend.getThumbnail());
+                boolean isFollwer = friendService.isFollwerCheck(friend, member.getEmail());
+                FollowingDTO dto = new FollowingDTO(friend.getEmail(), friend.getNickname(), friend.getThumbnail(),isFollwer);
                 dtos.add(dto);
             }
         }
         return new ResponseEntity(dtos, HttpStatus.OK);
     }
 
-    //친구 노토도 조회
+    //팔로잉 노토도 조회
     @GetMapping("view")
-    public ResponseEntity viewFriendNotodo(@RequestParam String email, @RequestParam String date) {
+    public ResponseEntity viewFollowingNotodo(@RequestParam String email, @RequestParam String date) {
         Optional<Member > optFriend = memberService.findFriend(email);
         if (optFriend.isEmpty()) {
             throw new UserNotFoundException(String.format("email[%s] ㅅㅏ용자를 찾을 수 없습니다", email));
@@ -122,17 +120,19 @@ public class FriendController {
     @GetMapping("viewfollwers")
     public ResponseEntity viewFollwers(@AuthenticationPrincipal Member member) {
         List<Friend> friendList = friendService.findFollwers(member);
-        List<MemberDTO> dtos = new ArrayList<>();
+        List<FollwerDTO> dtos = new ArrayList<>();
         for (Friend fr : friendList) {
             Optional<Member> optFriend = memberService.findFriend(fr.getEmail());
             if (optFriend.isPresent()) {
                 Member friend = optFriend.get();
-                MemberDTO dto = new MemberDTO(friend.getEmail(), friend.getNickname(), friend.getThumbnail());
+                boolean isFollwing = friendService.isFollwerCheck(member, friend.getEmail());
+                FollwerDTO dto = new FollwerDTO(friend.getEmail(), friend.getNickname(), friend.getThumbnail(),isFollwing);
                 dtos.add(dto);
             }
-        }
-        return new ResponseEntity(dtos, HttpStatus.OK);
 
+
+    }
+        return new ResponseEntity(dtos, HttpStatus.OK);
     }
 
     //팔로워 삭제

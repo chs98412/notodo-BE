@@ -59,4 +59,22 @@ public class FriendService {
         friendRepository.delete(friend);
         return;
     }
+
+    public boolean isFollwerCheck(Member member, String email) {
+        Optional<Friend> friend = friendRepository.findByMemberAndEmail(member, email);
+        if (friend.isEmpty()) {
+            return false;
+        }
+        return true;
+
+
+    }
+
+    public boolean isFollowingCheck(Member member, String email) {
+        Optional<Friend> friend = friendRepository.findByMemberAndEmail(member, email);
+        if (friend.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
 }
