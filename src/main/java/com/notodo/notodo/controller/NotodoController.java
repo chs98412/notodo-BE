@@ -66,9 +66,9 @@ public class NotodoController {
     @GetMapping("/view")
     public ResponseEntity viewNotodo(@AuthenticationPrincipal Member member,@RequestParam String date) {
         List<Notodo> notodos = notodoService.notodoView(member, date);
-        if (notodos.isEmpty()) {
-            throw new NoNotodoException(String.format("data[] 날짜에 해당하는 노토도가 없습니다.", date));
-        }
+//        if (notodos.isEmpty()) {
+//            throw new NoNotodoException(String.format("data[] 날짜에 해당하는 노토도가 없습니다.", date));
+//        }
         List<NotodoResponseDTO> responseDTOS = new ArrayList<>();
         for (Notodo notodo : notodos) {
             NotodoResponseDTO responseDTO = new NotodoResponseDTO(notodo.getNotodoId(),notodo.getContent(), notodo.getAdded(), notodo.getStatus());
