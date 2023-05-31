@@ -36,8 +36,8 @@ spring:
 #      hibernate:
 #        ddl-auto: create
 #
-#    datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://34.22.75.189:3306/notodo?useSSL=false&serverTimezone=UTC
-#    username: hyuk
-#    password: Chlgurtns98!
+    datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://34.22.75.189:3306/notodo?useSSL=false&serverTimezone=UTC
+    username: hyuk
+    password: Chlgurtns98!
