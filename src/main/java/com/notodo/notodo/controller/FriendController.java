@@ -57,6 +57,7 @@ public class FriendController {
     //친구 추가
     @PostMapping("add")
     public ResponseEntity addFriend(@AuthenticationPrincipal Member member,@RequestBody SetFriendDTO setFriendDTO) {
+
         Optional<Member > optFriend = memberService.findFriend(setFriendDTO.getEmail());
         if (optFriend.isEmpty()) {
             throw new UserNotFoundException(String.format("email[%s] ㅅㅏ용자를 찾을 수 없습니다", setFriendDTO.getEmail()));
@@ -64,7 +65,7 @@ public class FriendController {
         Member friend = optFriend.get();
         boolean status=friendService.friendAdd(member, friend);
         if (status == false) {
-            return new ResponseEntity("이미 존재하는 사용자입니다.", HttpStatus.BAD_REQUEST); //예외 쓰로우 해야하지 않을까?
+            return new ResponseEntity("이미 존재하는 사용자이거나 자기 자신입니다..", HttpStatus.BAD_REQUEST); //예외 쓰로우 해야하지 않을까?
         }
 
         return new ResponseEntity("success", HttpStatus.CREATED);

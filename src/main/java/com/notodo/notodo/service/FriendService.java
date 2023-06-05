@@ -21,6 +21,9 @@ public class FriendService {
         if (optFr.isPresent()) {
             return false;
         }
+        if (member.getEmail().equals(friend.getEmail())) {
+            return false;
+        }
         friendRepository.save(newFriend);
         return true;
     }
