@@ -15,10 +15,14 @@ public class FriendService {
     private FriendRepository friendRepository;
 
 
-    public void friendAdd(Member member, Member friend) {
+    public boolean friendAdd(Member member, Member friend) {
         Friend newFriend = Friend.builder().member(member).email(friend.getEmail()).build();
+        Optional<Friend> optFr =  friendRepository.findByMemberAndEmail(member, friend.getEmail());
+        if (optFr.isPresent()) {
+            return false;
+        }
         friendRepository.save(newFriend);
-        return;
+        return true;
     }
 
     public boolean friendDelete(Member member, Member friend) {
