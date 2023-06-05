@@ -34,7 +34,7 @@ spring:
 #        hibernate.format_sql: true
 #        hibernate.use_sql_comments: true
       hibernate:
-        ddl-auto: create
+        ddl-auto: none
 #
     datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
