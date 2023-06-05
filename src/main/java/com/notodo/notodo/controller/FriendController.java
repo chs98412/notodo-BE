@@ -126,7 +126,7 @@ public class FriendController {
         List<Friend> friendList = friendService.findFollwers(member);
         List<FollwerDTO> dtos = new ArrayList<>();
         for (Friend fr : friendList) {
-            Optional<Member> optFriend = memberService.findFriend(fr.getEmail());
+            Optional<Member> optFriend = memberService.findFriend(fr.getMember().getEmail());
             if (optFriend.isPresent()) {
                 Member friend = optFriend.get();
                 boolean isFollwing = friendService.isFollwerCheck(member, friend.getEmail());
