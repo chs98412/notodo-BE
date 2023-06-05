@@ -62,7 +62,10 @@ public class FriendController {
             throw new UserNotFoundException(String.format("email[%s] ㅅㅏ용자를 찾을 수 없습니다", setFriendDTO.getEmail()));
         }
         Member friend = optFriend.get();
-        friendService.friendAdd(member, friend);
+        boolean status=friendService.friendAdd(member, friend);
+        if (status == false) {
+            return new ResponseEntity("이미 존재하는 사용자입니다.", HttpStatus.BAD_REQUEST); //예외 쓰로우 해야하지 않을까?
+        }
 
         return new ResponseEntity("success", HttpStatus.CREATED);
     }
