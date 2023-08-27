@@ -51,6 +51,7 @@ public class NotodoService {
     public void notodoDelete(Long notodoId) {
         Notodo notodo = notodoRepository.findById(notodoId).get();
         notodoRepository.delete(notodo);
+
     }
 
     public void notodoPut(NotodoPutResponseDTO dto) {

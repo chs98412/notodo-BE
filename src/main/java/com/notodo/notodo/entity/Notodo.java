@@ -24,6 +24,7 @@ public class Notodo {
     @JoinColumn(name="member_id")
     private Member member;
 
+
     private String content;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
     private LocalDate added;
